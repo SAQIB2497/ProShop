@@ -49,7 +49,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     description: {
-      type: true,
+      type: String,
       required: true,
     },
     reviews: [reviewSchema],
