@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addtoCart } from "../slices/cartSlice.js";
+import { addtoCart, removefromcart } from "../slices/cartSlice.js";
 import {
   Row,
   Col,
@@ -20,6 +20,14 @@ const CartScreen = () => {
 
   const addToCartHandler = async (product, qty) => {
     dispatch(addtoCart({ ...product, qty }));
+  };
+
+  const removefromcartHandler = async (id) => {
+    dispatch(removefromcart(id));
+  };
+
+  const CheckoutHandler = () => {
+    navigate("/login?redirect=/shipping");
   };
 
   const cart = useSelector((state) => state.cart);
@@ -70,7 +78,11 @@ const CartScreen = () => {
                   </Col>
 
                   <Col md={2}>
-                    <Button type="button" variant="light">
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => removefromcartHandler(item._id)}
+                    >
                       <FaTrash />
                     </Button>
                   </Col>
@@ -99,6 +111,7 @@ const CartScreen = () => {
                 type="button"
                 className="btn-block"
                 disabled={cartItems.length === 0}
+                onClick={CheckoutHandler}
               >
                 Proceed to Checkout
               </Button>
