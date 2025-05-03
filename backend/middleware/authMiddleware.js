@@ -4,16 +4,15 @@ import asyncHanlder from "../middleware/asyyncHandler.js";
 
 //Protect Route
 const protect = asyncHanlder(async (req, res, next) => {
-  let token;
-
-  //Read the jwt from the cookie
-  token = req.cookies.jwt;
+  let token = req.cookies.jwt;
 
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      await User.findById(decoded.userId).select("-password");
+      // ✅ Assign the user to req.user
+      req.user = await User.findById(decoded.userId).select("-password");
+
       next();
     } catch (error) {
       res.status(401);
