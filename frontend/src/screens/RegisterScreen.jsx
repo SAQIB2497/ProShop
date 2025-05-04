@@ -35,33 +35,46 @@ const RegisterScreen = () => {
     e.preventDefault();
 
     if (password !== confirmpassword) {
-      toast.error("Password do not match ");
+      toast.error("Passwords do not match");
       return;
-    } else {
-      try {
-        const res = await register({ name, email, password }).unwrap();
-        dispatch(setCredentials({ ...res }));
-        navigate(redirect);
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
+    }
+
+    try {
+      const res = await register({ name, email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate(redirect);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
   };
 
   return (
     <FormContainer>
-      <h1 className="mt-3">Sign In</h1>
+      <h1 className="mt-3">Sign Up</h1>
       <Form onSubmit={submitHandler}>
+        {/* Name */}
+        <Form.Group controlId="name" className="my-3">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Form.Group>
+
+        {/* Email */}
         <Form.Group controlId="email" className="my-3">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
-            placeholder="Enter Email"
+            placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
 
+        {/* Password */}
         <Form.Group controlId="password" className="my-3">
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -72,8 +85,19 @@ const RegisterScreen = () => {
           />
         </Form.Group>
 
+        {/* Confirm Password */}
+        <Form.Group controlId="confirmpassword" className="my-3">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Confirm password"
+            value={confirmpassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </Form.Group>
+
         <Button type="submit" variant="primary" className="mt-3" disabled={isLoading}>
-          Sign In
+          Sign Up
         </Button>
 
         {isLoading && <Loader />}
@@ -81,9 +105,9 @@ const RegisterScreen = () => {
 
       <Row className="py-3">
         <Col>
-          New Customer?{" "}
-          <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
-            Register
+          Have an Account?{" "}
+          <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>
+            Sign In
           </Link>
         </Col>
       </Row>
