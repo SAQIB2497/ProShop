@@ -4,7 +4,8 @@ import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../slices/authSlice";
+import { useLogoutMutation } from "../slices/usersApiSlice";
+import { logout } from "../slices/authSlice.js";
 import logo from "../assets/logo.png";
 
 const Header = () => {
@@ -14,9 +15,16 @@ const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
 
-  const logoutHandler = () => {
-    dispatch(logout());
-    navigate("/login");
+  const [logoutApi] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutApi().unwrap();
+      dispatch(logout());
+      navigate("/login");
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
