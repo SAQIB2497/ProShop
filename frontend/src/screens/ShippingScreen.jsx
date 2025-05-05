@@ -26,7 +26,7 @@ const ShippingScreen = () => {
   };
   return (
     <FormContainer>
-      <h1>Shipping</h1>
+      <h1 className="mt-2">Shipping</h1>
       <Form onSubmit={submitHanlder}>
         <Form.Group controlId="adress" className="my-2">
           {/* Adress */}
