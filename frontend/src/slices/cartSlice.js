@@ -5,7 +5,7 @@ const initialState = localStorage.getItem("Cart")
   ? JSON.parse(localStorage.getItem("Cart"))
   : {
       cartItems: [],
-      shippingAdress: {},
+      shippingAddress: {},
       paymentMethod: "Paypal",
     };
 
@@ -31,8 +31,8 @@ const cartSlice = createSlice({
 
       return updateCart(state);
     },
-    saveShippingAdress: (state, action) => {
-      state.shippingAdress = action.payload;
+    saveShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
       return updateCart(state);
     },
 
@@ -51,7 +51,7 @@ const cartSlice = createSlice({
 export const {
   addtoCart,
   removefromcart,
-  saveShippingAdress,
+  saveShippingAddress,
   savePaymentMethod,
   clearCartItems,
 } = cartSlice.actions;

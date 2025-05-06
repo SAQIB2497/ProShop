@@ -7,9 +7,9 @@ import Order from "../models/orderModel.js";
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
-    shippingAdress,
+    shippingAddress,
     paymentMethod,
-    itemPrice,
+    itemsPrice,
     taxPrice,
     shippingPrice,
     totalPrice,
@@ -26,16 +26,16 @@ const addOrderItems = asyncHandler(async (req, res) => {
         _id: undefined,
       })),
       user: req.user._id,
-      shippingAdress,
+      shippingAddress,
       paymentMethod,
-      itemPrice,
+      itemsPrice,
       taxPrice,
       shippingPrice,
       totalPrice,
     });
+    const createOrder = await order.save();
+    res.status(201).json(createOrder);
   }
-  const createOrder = await order.save();
-  res.status(201).json(createOrder);
 });
 
 // @desc    Get logged in users order

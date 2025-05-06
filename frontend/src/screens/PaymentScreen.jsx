@@ -7,19 +7,19 @@ import CheckOutSteps from "../components/CheckOutSteps.jsx";
 import { savePaymentMethod } from "../slices/cartSlice.js";
 
 const PaymentScreen = () => {
-  const [paymentMethod, setpaymentMethod] = useState("Paypal");
+  const [paymentMethod, setPaymentMethod] = useState("PayPal"); // ✅ Capitalized for consistency
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart);
-  const { shippingAdress } = cart;
+  const { shippingAddress } = cart; // ✅ FIX: Corrected typo (was 'shippingAdress')
 
   useEffect(() => {
-    if (!shippingAdress) {
+    if (!shippingAddress?.address) {
       navigate("/shipping");
     }
-  }, [shippingAdress]);
+  }, [shippingAddress, navigate]); // ✅ Added navigate to deps for best practice
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -38,12 +38,12 @@ const PaymentScreen = () => {
             <Form.Check
               type="radio"
               className="my-2"
-              label="Paypal or Credit Card"
+              label="PayPal or Credit Card"
               name="paymentMethod"
-              value="paypal"
-              checked
-              onChange={(e) => setpaymentMethod(e.target.value)}
-            ></Form.Check>
+              value="PayPal"
+              checked={paymentMethod === "PayPal"} // ✅ Controlled checked
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
           </Col>
         </Form.Group>
 
