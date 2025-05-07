@@ -1,13 +1,25 @@
 import asyncHandler from "../middleware/asyyncHandler.js";
 import Product from "../models/productModel.js";
 
-// @desc    Fetch all products
-// @route   GET /api/products
+// @desc    Fetch all products with pagination
+// @route   GET /api/products?pageNumber=1
 // @access  Public
 export const getProduct = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
-  res.json(products);
+  const pageSize = 2; // You can change this to any number
+  const page = Number(req.query.pageNumber) || 1;
+
+  const count = await Product.countDocuments();
+  const products = await Product.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({
+    products,
+    page,
+    pages: Math.ceil(count / pageSize),
+  });
 });
+
 
 // @desc    Fetch all products
 // @route   GET /api/products/:id
