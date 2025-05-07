@@ -5,7 +5,7 @@ import Product from "../models/productModel.js";
 // @route   GET /api/products?pageNumber=1
 // @access  Public
 export const getProduct = asyncHandler(async (req, res) => {
-  const pageSize = 2; // You can change this to any number
+  const pageSize = 3; // You can change this to any number
   const page = Number(req.query.pageNumber) || 1;
 
   const count = await Product.countDocuments();
