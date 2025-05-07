@@ -45,7 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    generateToken(res, user._id); // ✅ Generate token on registration
+    generateToken(res, user._id);
 
     res.status(201).json({
       _id: user._id,
@@ -141,14 +141,19 @@ const getUserById = asyncHandler(async (req, res) => {
 // @desc    Delete User
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
-const deleteUser = asyncHandler(async (req, res) => {
+const deleteUser = asyncHandler(async (req, res) => { 
   const user = await User.findById(req.params.id);
+
   if (user) {
-    await user.remove();
-    res.status(200).json({ message: "User removed" });
+    if (user.isAdmin) {
+      res.status(400);
+      throw new Error("Can Not delete Admin User");
+    }
+    await User.deleteOne({ _id: user._id });
+    res.status(200).json({ message: " User Deleted Successfully" });
   } else {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("User Not Found");
   }
 });
 
