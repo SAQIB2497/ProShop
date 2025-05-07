@@ -31,7 +31,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: USER_URL,
       }),
-      providesTags: ["Users"],
+      providesTags: ["Users"], // Providing tags for invalidation
       keepUnusedDataFor: 5,
     }),
 
@@ -40,6 +40,24 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USER_URL}/${userId}`,
         method: "DELETE",
       }),
+      // invalidates the Users cache after deletion
+      invalidatesTags: ["Users"],
+    }),
+
+    getUsersDetail: builder.query({
+      query: (userId) => ({
+        url: `${USER_URL}/${userId}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
+
+    updateUser: builder.mutation({
+      query: ({ data }) => ({
+        url: `${USER_URL}/${data.userId}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Users"], // Invalidating "Users" tag to refetch updated list
     }),
   }),
 });
@@ -50,4 +68,6 @@ export const {
   useRegisterMutation,
   useGetUsersQuery,
   useDeleteUserMutation,
+  useGetUsersDetailQuery,
+  useUpdateUserMutation,
 } = usersApiSlice;
