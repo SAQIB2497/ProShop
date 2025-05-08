@@ -5,12 +5,16 @@ import Rating from "./Rating.jsx";
 
 const Product = ({ product }) => {
   return (
-    <Card className="my-3 p-3 rounded">
+    <Card className="my-3 p-3 rounded product-card">
       <Link to={`/product/${product._id}`}>
-        <Card.Img variant="top" src={product.image} />
+        <Card.Img
+          variant="top"
+          src={product.image}
+          className="product-img"
+        />
       </Link>
 
-      <Card.Body>
+      <Card.Body className="d-flex flex-column justify-content-between">
         <Link to={`/product/${product._id}`}>
           <Card.Title as="div" className="product-title">
             <strong>{product.name}</strong>

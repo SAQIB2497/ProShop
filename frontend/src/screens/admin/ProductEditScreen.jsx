@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Image } from "react-bootstrap"; // ✅ Added Image here
 import Message from "../../components/Message.jsx";
 import Loader from "../../components/Loader.jsx";
 import FormContainer from "../../components/FormContainer.jsx";
@@ -101,16 +101,24 @@ const ProductEditScreen = () => {
               />
             </Form.Group>
 
-            {/* Image Input placeHolder
             <Form.Group controlId="image" className="my-2">
-              <Form.Label>Image</Form.Label>
+              <Form.Label>Image URL</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter image URL"
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
               />
-            </Form.Group> */}
+              {image && (
+                <Image
+                  src={image}
+                  alt="preview"
+                  fluid
+                  className="mt-2"
+                  style={{ maxHeight: "200px" }}
+                />
+              )}
+            </Form.Group>
 
             <Form.Group controlId="brand" className="my-2">
               <Form.Label>Brand</Form.Label>
