@@ -8,8 +8,12 @@ export const getProduct = asyncHandler(async (req, res) => {
   const pageSize = 3; // You can change this to any number
   const page = Number(req.query.pageNumber) || 1;
 
-  const count = await Product.countDocuments();
-  const products = await Product.find({})
+  const keyword = req.query.keyword
+    ? { name: { $regex: req.query.keyword, $options: "i" } }
+    : {};
+
+  const count = await Product.countDocuments({ ...keyword });
+  const products = await Product.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
@@ -19,7 +23,6 @@ export const getProduct = asyncHandler(async (req, res) => {
     pages: Math.ceil(count / pageSize),
   });
 });
-
 
 // @desc    Fetch all products
 // @route   GET /api/products/:id
@@ -138,4 +141,3 @@ export const createdProductReviews = asyncHandler(async (req, res) => {
 
   res.status(201).json({ message: "Review added" });
 });
-
