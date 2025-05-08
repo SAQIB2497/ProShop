@@ -15,7 +15,8 @@ import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
 } from "../slices/productApiSlice.js";
-import Loader from "../components/loader.jsx";
+import Loader from "../components/Loader.jsx";
+import Meta from "../components/Meta.jsx";
 import Message from "../components/Message.jsx";
 import { addtoCart } from "../slices/cartSlice.js";
 
@@ -75,6 +76,7 @@ const ProductScreen = () => {
           <Link className="btn btn-light my-3" to="/">
             Go Back
           </Link>
+          <Meta title={product.name} />
           <Row>
             <Col md={5}>
               <Image src={product.image} alt={product.name} fluid />
@@ -205,11 +207,7 @@ const ProductScreen = () => {
                         />
                       </Form.Group>
 
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        className="mt-2"
-                      >
+                      <Button type="submit" variant="primary" className="mt-2">
                         Submit
                       </Button>
                     </Form>
